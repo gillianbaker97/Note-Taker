@@ -1,6 +1,8 @@
 const express = require('express');
-const PORT = 3001;
+const path = require('path');
 const app = express();
+const PORT = 3001;
+
 
 // mounts the middleware functions at the specified path
 app.use(express.json());
@@ -9,7 +11,7 @@ app.use(express.urlencoded({extended: true}));
 //app.get routes the HTTP get requests with specific callback functions
 app.get('/notes', (req,res) => {
     console.log('we have the notes');
-    return res.json(notes.html);
+    return res.sendFile('notes.html');
 });
 
 
