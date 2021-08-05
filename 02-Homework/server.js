@@ -15,7 +15,7 @@ app.get('/notes', (req,res) => {
 
 app.get('*', (req,res) => {
     console.log('we have the index');
-    return res.json('index.html');
+    return res.sendFile('index.html');
 });
 
 app.get('/api', (req, res) => {
