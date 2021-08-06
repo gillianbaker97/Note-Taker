@@ -8,6 +8,7 @@ const uuid = require('./helpers/uuid');
 // mounts the middleware functions at the specified path
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+app.use(express.static('public'));
 
 //app.get routes the HTTP get requests with specific callback functions
 app.get('/notes', (req,res) => {
