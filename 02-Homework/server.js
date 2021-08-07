@@ -1,8 +1,9 @@
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
 const app = express();
 const PORT = 3001;
-const uuid = require('./helpers/uuid');
+//const uuid = require('/helpers/uuid.js');
 
 
 // mounts the middleware functions at the specified path
@@ -16,7 +17,6 @@ app.get('/notes', (req,res) => {
     console.info(`${req.method} request received to get the notes`);
     return res.sendFile(path.join(__dirname, '/public/notes.html'));
 });
-
 
 app.get('*', (req,res) => {
     res.json(`${req.method} request received to get the notes`);
@@ -38,7 +38,7 @@ app.post('/api/notes', (req, res) => {
     if (notes) {
         const newNote = {
             note,
-            note_id: uuid(),
+            //note_id: uuid(),
         };
 
         const response = {
@@ -52,7 +52,25 @@ app.post('/api/notes', (req, res) => {
     } else {
         res.json('Error in posting notes');
     };
-})
+
+    const reviewString = JSON.stringify(newNote);
+
+    fs.writeFile(`./db/${newNote.note}.json`, reviewString, (err) =>
+    err
+      ? console.error(err)
+      : console.log(
+          `Review for ${newNote.note} has been written to JSON file`
+        )
+  );
+
+  const response = {
+    status: 'success',
+    body: newNote,
+  };
+
+  console.log(response);
+
+});
 
 // used to bind and listen for the connections between a host and port 
 app.listen(PORT, () => 
